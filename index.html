@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pixel UP - ドット絵拡大ツール</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Pixel UP</h1>
+  <p>ドット絵をぼかさずに拡大。補間なし・色も増えません。すべてブラウザ内で処理され、画像は送信されません。</p>
+</header>
+<main>
+  <section class="panel">
+    <div class="drop" id="drop">画像をドロップ / クリックで選択<br><small>PNG・GIF・WebP など(貼り付け Ctrl+V も可)</small></div>
+    <input type="file" id="file" accept="image/*" hidden>
+
+    <label>拡大方式</label>
+    <select id="mode">
+      <option value="nearest">ニアレストネイバー(そのまま整数倍)</option>
+      <option value="scale2x">Scale2x(斜めを滑らかに・ぼかしなし / 2の累乗倍)</option>
+    </select>
+
+    <label>指定方法</label>
+    <select id="sizeBy">
+      <option value="scale">倍率で指定</option>
+      <option value="size">出力サイズ(幅×高さ)で指定</option>
+    </select>
+
+    <div id="scaleBox">
+      <label>倍率</label>
+      <div class="row">
+        <input type="range" id="scale" min="1" max="32" value="4">
+        <input type="number" id="scaleNum" min="1" max="999" value="4" style="width:80px"> x
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <div id="sizeBox" hidden>
+      <label>出力サイズ(px)</label>
+      <div class="row">
+        <input type="number" id="sizeW" min="1" value="256"> ×
+        <input type="number" id="sizeH" min="1" value="256">
+      </div>
+      <label class="check"><input type="checkbox" id="lockAspect" checked> 縦横比を固定</label>
+      <label>サイズが整数倍にならないとき</label>
+      <select id="fitMode">
+        <option value="stretch">指定サイズぴったりにする</option>
+        <option value="pad">整数倍で最大化して余白(透明)で合わせる</option>
+      </select>
+    </div>
+
+    <div class="info" id="info">画像を読み込んでください。</div>
+
+    <button class="sub" id="detect" disabled>元のドットサイズを自動検出</button>
+    <div class="info" id="detectInfo"></div>
+
+    <button class="main" id="dl" disabled>PNGとして保存</button>
+  </section>
+
+  <section class="panel view">
+    <div class="bar"><span id="size">-</span>
+      <span><label class="check"><input type="checkbox" id="fit"> 画面に合わせて表示</label></span></div>
+    <div class="stage" id="stage"><div class="empty">ここにプレビューが表示されます</div></div>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
